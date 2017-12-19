@@ -26,19 +26,20 @@ void swMqtt_print_package(swMqtt_package *pkg)
 static sw_inline int swMqtt_get_length(char *data, uint32_t size, int *count)
 {
     uint8_t byte;
-    int mul = 1;
-    int length = 0;
+    uint32_t length = 0;
+    int cnt = 0;
 
     *count = 0;
     do
     {
-        byte = data[*count + 1];
-        length += (byte & 127) * mul;
-        mul *= 128;
-        (*count)++;
+        byte = data[cnt + 1];
+        length <<= 7;
+        length |= byte & 0x7f;
+        cnt ++;
     } while ((byte & 128) != 0);
+    *count = cnt;
 
-    return length;
+    return (int)length;
 }
 
 //int swMqtt_unpack(swMqtt_package *pkg, char *data, uint32_t size)

@@ -28,8 +28,7 @@ static sw_inline int swMqtt_get_length(char *data, uint32_t size, int *count)
     uint8_t byte;
     uint32_t length = 0;
     int cnt = 0;
-
-    *count = 0;
+ 
     do
     {
         byte = data[cnt + 1];
